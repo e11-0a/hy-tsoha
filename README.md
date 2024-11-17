@@ -1,4 +1,7 @@
 # Opetussovellus
+> [!WARNING]  
+> Oli ongelmia paikallisen repon kanssa, tiedostoja voi puuttua tai olla väärä versio
+
 
 (perustuu materiaalin esimerkkiin)
 
