@@ -1,0 +1,19 @@
+{% extends 'base.jinja' %}
+
+{% block header %}
+  <h1>{% block title %}Error!{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<pre>
+{{error_title}}
+---------------------------
+{{error_body}}
+
+
+</pre>
+<a href="/">go home</a>
+
+
+{% endblock %}

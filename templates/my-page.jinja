@@ -1,0 +1,32 @@
+{% extends 'base.jinja' %}
+
+{% block header %}
+<h1>{% block title %}Kurssit{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="frame">
+
+    <p>Kurssit jonka jäsen olet</p>
+
+    <table class="course-table">
+        <tr>
+            <th>Koodi</th>
+            <th>Nimi</th>
+            <th>Toiminnot</th>
+        </tr>
+        {% for course in courses %}
+
+        <tr>
+            <td><a href="#">{{course.codename}}</a></td>
+            <td>{{course.title}}</td>
+            <td>
+                <a href="{{url_for('course_page', course=course.id)}}">Kurssisivu</a>
+            </td>
+        </tr>
+
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

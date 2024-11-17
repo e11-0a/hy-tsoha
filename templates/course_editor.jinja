@@ -1,0 +1,93 @@
+{% extends 'base.jinja' %}
+
+<h1>{% block title %}{{course.title}}{% endblock %}</h1>
+
+{% block content %}
+<button onclick="toggleSidebar()" class="show-sidebar">Näytä</button>
+<div class="course-material">
+  <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet" />
+
+  {% if course_materials|length > 0 %}
+  <div class="sidebar">
+    <button onclick="toggleSidebar()">Piilota</button>
+    {%for material in course_materials%}
+
+    <a href="{{url_for('course_material_page', course=course.id, material=material.id)}}">
+      {{material.name}}
+      {{material.type_string}}
+    </a>
+
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="material">
+    {% if current_material != None %}
+
+
+
+    <div id="editor" initial="{{current_material.content}}">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+
+    <script>
+      const quill = new Quill("#editor", {
+        theme: "snow",
+      });
+      const content = document.getElementById("editor").attributes.getNamedItem("initial").textContent
+      const delta = quill.clipboard.convertHTML(content)
+      quill.setContents(delta, 'silent')
+
+    </script>
+
+    {% else %}
+    <h1>
+      {{ course.codename }}
+      {{ course.title }}
+    </h1>
+
+    <p>
+      {{ course.description }}
+    </p>
+    {% endif %}
+
+  </div>
+
+  {% if user.has_role(g.roles.teacher) %}
+  <div>
+    Tools
+    {{ user.has_role(g.roles.teacher) }}
+
+    <button onclick="saveMaterial()">Save</button>
+    <form id="editor_form" action="" method="POST">
+      <input type="text" id="source_form" hidden value="" name="source">
+      <input type="file" id="source_form" name="source2">
+    </form>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  let sidebar = true;
+  function toggleSidebar() {
+    sidebar ^= 1
+    document.querySelector(".sidebar").style.display = ["none", "flex"][sidebar - 0]
+    document.querySelector(".show-sidebar").style.display = ["none", "block"][(!sidebar) - 0]
+  }
+
+  function saveMaterial() {
+    // TODO
+    console.log("Saving")
+    html = document.querySelector("#editor > .ql-editor").innerHTML
+    var data = new FormData()
+    data.append('file', html)
+    fetch(location.href, {
+      method: 'POST',
+      body: data
+    })
+  }
+
+
+</script>
+{% endblock %}

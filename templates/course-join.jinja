@@ -1,0 +1,40 @@
+{% extends 'base.jinja' %}
+
+{% block header %}
+<h1>{% block title %}{{course.title}}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+{{course.description}}
+
+{% if g.user.has_role(role.teacher) %}
+
+<form action="{{ url_for('join_course_teacher', course=course.id)}}" method="post">
+    <input type="submit" value="Liity kurssille">
+</form>
+
+{% else%}
+{% if course.mode == 1 %}
+Kurssin tarkastelu vaatii ilmoittautumisen
+
+<form action="{{ url_for('join_course_student', course=course.id)}}" method="post">
+    <input type="submit" value="Liity kurssille">
+</form>
+
+{% elif course.mode == 2 %}
+<p>
+    Kurssin tarkastelu vaatii ilmoittautumisen
+</p>
+
+<form action="{{ url_for('join_course_student', course=course.id)}}" method="post">
+    <label>Kurssialueen salasana</label>
+    <br>
+    <input type="password" name="course_password">
+    <input type="submit" value="Liity kurssille">
+</form>
+{% endif %}
+{% endif %}
+
+
+{% endblock %}

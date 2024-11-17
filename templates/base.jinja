@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<title>{% block title %}{% endblock %} - Kurssit</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+    <a class="logo" href="{{ url_for('index') }}">Opetussovellus</a>
+    <div class="links">
+        {% if g.user %}
+        <a href="{{ url_for('my_index') }}">Omat</a>
+        <a href="{{ url_for('course_index') }}">Kurssit</a>
+        {% endif %}
+    </div>
+
+
+    {% if g.user %}
+    {% if g.user.has_role(g.roles.teacher) %}
+    <div>
+        <a href="#">TODO</a>
+    </div>
+    {% endif %}
+    <div class="dropdown">
+        <span>{{ g.user['username'] }}</span>
+        <div class="dropdown-content">
+            <a href="{{ url_for('logout') }}">Kirjaudu ulos</a>
+        </div>
+    </div>
+    {% else %}
+    <a href="{{ url_for('login') }}">Log In</a>
+    {% endif %}
+</nav>
+<section class="content">
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+
+    {% block content %}{% endblock %}
+</section>

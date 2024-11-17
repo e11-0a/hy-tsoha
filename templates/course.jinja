@@ -1,0 +1,75 @@
+{% extends 'base.jinja' %}
+
+<h1>{% block title %}{{course.title}}{% endblock %}</h1>
+
+{% block content %}
+<button onclick="toggleSidebar()" class="show-sidebar">Näytä</button>
+<div class="course-material">
+
+    {% if course_materials|length > 0 %}
+    <div class="sidebar">
+        <button onclick="toggleSidebar()">Piilota</button>
+        {%for material in course_materials%}
+
+        <a href="{{url_for('course_material_page', course=course.id, material=material.id)}}">
+            {{material.name}}
+            {{material.type_string}}
+        </a>
+
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="material">
+        {% if current_material != None %}
+        <iframe srcdoc="{{current_material.content}}" sandbox="">
+        </iframe>
+        {% else %}
+        <h1>
+            {{ course.codename }}
+            {{ course.title }}
+        </h1>
+
+        <p>
+            {{ course.description }}
+        </p>
+        {% if g.user %}
+        {% if (not course.isMember(g.user.id)) and user.has_role(role.student) %}
+        <p>Et ole kurssin jäsen, tehdäksesi tehtäviä sinun täytyy liittyä.</p>
+        <form action="{{ url_for('join_course_student', course=course.id)}}" method="post">
+            <input type="submit" value="Liity kurssille">
+        </form>
+        {% elif (not course.isMember(g.user.id)) and user.has_role(role.teacher) %}
+        <p>Et ole kurssin jäsen, voidaksesi muokata kurssia sinun täytyy liittyä.</p>
+        <form action="{{ url_for('join_course_teacher', course=course.id)}}" method="post">
+            <input type="submit" value="Liity kurssille">
+        </form>
+        {% endif %}
+        {% endif %}
+        {% endif %}
+
+    </div>
+    {% if g.user %}
+    {% if user.has_role(g.roles.teacher) and course.isMember(g.user.id) %}
+    <div>
+        Tools
+        {{ user.has_role(g.roles.teacher) }}
+
+        <a href="{{url_for('course_material_edit', course=course.id, material=current_material.id)}}">Muokkaa</a>
+
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+
+<script>
+    let sidebar = true;
+    function toggleSidebar() {
+        sidebar ^= 1
+        document.querySelector(".sidebar").style.display = ["none", "flex"][sidebar - 0]
+        document.querySelector(".show-sidebar").style.display = ["none", "block"][(!sidebar) - 0]
+    }
+
+
+</script>
+{% endblock %}
