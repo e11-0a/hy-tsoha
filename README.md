@@ -13,3 +13,24 @@ Sovelluksen ominaisuuksia:
 - Opettaja pystyy luomaan uuden kurssin, muuttamaan olemassa olevaa kurssia ja poistamaan kurssin.
 - Opettaja pystyy lisäämään kurssille tekstimateriaalia ja tehtäviä. Tehtävä voi olla ainakin monivalinta tai tekstikenttä, johon tulee kirjoittaa oikea vastaus.
 - Opettaja pystyy näkemään kurssistaan tilaston, keitä opiskelijoita on kurssilla ja mitkä kurssin tehtävät kukin on ratkonut.
+
+
+# Running
+
+1. Create database and user in postgres
+2. Create a new config file from the provided example: 
+```bash
+cp example.ini config.ini
+```
+3. At least configure `session_secret`, `connection_string` and `debug`
+4. Create base tables with `sql/create-db.sql` 
+5. (optional) import test data from `sql/create-test.sql`
+6. Run the server
+```bash
+python app.py
+
+# or
+
+flask --app app.py run
+```
+
