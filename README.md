@@ -84,3 +84,5 @@ user_1:abcde
 Student:
 user_2:abcde
 ```
+
+Creating users via the web interface is not supported yet
