@@ -26,11 +26,14 @@
 
 
 
+    <!-- Create the editor container -->
     <div id="editor" initial="{{current_material.content}}">
     </div>
 
+    <!-- Include the Quill library -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
 
+    <!-- Initialize Quill editor -->
     <script>
       const quill = new Quill("#editor", {
         theme: "snow",
@@ -55,14 +58,16 @@
   </div>
 
   {% if user.has_role(g.roles.teacher) %}
-  <div>
-    Tools
-    {{ user.has_role(g.roles.teacher) }}
+  <div class="teacher-sidebar">
 
-    <button onclick="saveMaterial()">Save</button>
+    <a class="button" onclick="saveMaterial()">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+</svg>
+
+    </a>
     <form id="editor_form" action="" method="POST">
-      <input type="text" id="source_form" hidden value="" name="source">
-      <input type="file" id="source_form" name="source2">
+      <input type="text" id="source_form" hidden value="" name="editor">
     </form>
   </div>
   {% endif %}
@@ -80,14 +85,9 @@
     // TODO
     console.log("Saving")
     html = document.querySelector("#editor > .ql-editor").innerHTML
-    var data = new FormData()
-    data.append('file', html)
-    fetch(location.href, {
-      method: 'POST',
-      body: data
-    })
+    document.querySelector("#source_form").value = html
+    document.querySelector("#editor_form").submit()
   }
-
 
 </script>
 {% endblock %}

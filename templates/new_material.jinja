@@ -1,0 +1,15 @@
+{% extends 'base.jinja' %}
+
+<h1>{% block title %}{{course.title}}{% endblock %}</h1>
+
+{% block content %}
+<div class="course-material ">
+
+    <form action="" method="POST">
+    <input type="text" name="name">
+    <input type="submit">
+    </form>
+
+</div>
+
+{% endblock %}

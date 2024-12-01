@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <title>{% block title %}{% endblock %} - Kurssit</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 <nav>
     <a class="logo" href="{{ url_for('index') }}">Opetussovellus</a>
     <div class="links">
@@ -14,13 +14,14 @@
     {% if g.user %}
     {% if g.user.has_role(g.roles.teacher) %}
     <div>
-        <a href="#">TODO</a>
+        <a href="#">Teacherlinks</a>
     </div>
     {% endif %}
     <div class="dropdown">
         <span>{{ g.user['username'] }}</span>
         <div class="dropdown-content">
             <a href="{{ url_for('logout') }}">Kirjaudu ulos</a>
+            <a href="{{ url_for('logout') }}">Omat tiedot</a>
         </div>
     </div>
     {% else %}
@@ -31,6 +32,8 @@
     <header>
         {% block header %}{% endblock %}
     </header>
-
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
     {% block content %}{% endblock %}
 </section>
