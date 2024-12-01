@@ -14,3 +14,12 @@ Run dev instace:
 ```
 flask --app app.py run --debug
 ```
+
+Run devtool:
+```
+./devtool.py -c ./config.ini
+./devtool.py -c ./config.ini -o newuser -i
+./devtool.py -c ./config.ini -o newcourse -i
+./devtool.py -c ./config.ini -o newmaterial -i
+./devtool.py -c ./config.ini -o modify -i
+```
