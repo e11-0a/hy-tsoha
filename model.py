@@ -38,6 +38,25 @@ class Course:
             db_course = cur.execute(
                 "INSERT INTO courseMembers (user_id, course_id, user_type) VALUES (%s, %s, %s)", (user_id, self.id, user_type))
 
+class Exercise:
+    def __init__(self, exerciseSource: dict) -> None:
+        self.source = exerciseSource
+        self.automatic = True
+        self.validateSource()
+    
+    def validateSource(self):
+        try:
+            if self.source["type"] in ["multiple_choice", "short_text_answer", "freetext"]:
+                if self.source["type"] == "freetext":
+                    self.automatic = False
+        except Exception as e:
+            print("Exercise validation error", e)
+            raise ValueError("Exercise validation failed", e)
+    
+    def grade(self, answer: dict):
+        # todo
+        pass
+
 class Material:
     def __init__(self, material_id, course_id, name=None, material_type=None, content=None, description=None) -> None:
         self.id = material_id

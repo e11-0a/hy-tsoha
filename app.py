@@ -19,4 +19,4 @@ app.debug = config["general"]["debug"] == "true"
 
 
 if __name__ == "__main__":
-    app.run(host=config["general"]["host"])
+    app.run(host=config["general"]["host"], port=int(config["general"]["port"]))
