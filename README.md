@@ -75,3 +75,12 @@ psql -U <your postgres user> -d <your database> -a -f sql/create-db.sql
 ```bash
 flask --app app.py run
 ```
+
+# Testing
+If test data used, you should be able to log in with:
+```
+Teacher:
+user_1:abcde
+Student:
+user_2:abcde
+```
