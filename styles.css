@@ -1,0 +1,166 @@
+/**
+ * This injects Tailwind's base styles and any base styles registered by
+ * plugins.
+ */
+ @tailwind base;
+
+ /**
+  * This injects Tailwind's component classes and any component classes
+  * registered by plugins.
+  */
+ @tailwind components;
+ 
+ /**
+  * This injects Tailwind's utility classes and any utility classes registered
+  * by plugins.
+  */
+ @tailwind utilities;
+ 
+ /**
+  * Use this directive to control where Tailwind injects the hover, focus,
+  * responsive, dark mode, and other variants of each class.
+  *
+  * If omitted, Tailwind will append these classes to the very end of
+  * your stylesheet by default.
+  */
+ @tailwind variants;
+
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+nav {
+    border-bottom: 1px solid;
+    @apply bg-purple-100 h-10 text-purple-400 flex flex-row gap-1 font-sans items-center border-b border-purple-300;
+}
+
+nav>.links {
+    flex-grow: 1;
+}
+
+nav>.logo {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding-left: 0.5rem;
+    @apply text-purple-400;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: black;
+    color: white;
+    min-width: 160px;
+    padding: 12px 16px;
+    z-index: 1;
+    right:0;
+    top: 100%;
+    flex-direction: column;
+}
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+.dropdown:hover{
+    background-color: purple;
+}
+
+.dropdown{
+    cursor: pointer;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-left: 1px solid gray;
+    @apply px-4 border-l-purple-300;
+}
+
+section.content {
+    flex-grow: 1;
+    position: relative;
+}
+
+.course-table{
+    border-collapse: collapse;
+
+}
+
+.course-table > tbody > tr > th{
+    @apply text-left border-b
+}
+
+.course-table > tbody > tr > td{
+    @apply border-l border-r border-b p-1
+}
+
+.course-material{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.course-material > .material {
+    flex-grow: 1;
+    overflow-x: hidden;
+}
+
+.course-material > .sidebar {
+    border-right: 1px solid gray;
+    @apply border-r border-red-300 grow-0 p-1 flex flex-col text-left;
+}
+
+.sidebar > a {
+    @apply hover:bg-slate-200 w-full
+}
+
+.show-sidebar{
+    position: absolute;
+    left:0.5rem;
+    top:0.5rem;
+    display: none;
+    opacity: 0.5;
+    width: 5rem;
+    z-index: 999;
+    @apply hover:bg-slate-200
+}
+
+.frame{
+    padding:1rem;
+}
+
+header>h1{
+    padding-left: 1rem;
+    margin-bottom: 0;
+}
+
+.material > iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.editor{
+    max-width: 100%;
+}
+
+.teacher-sidebar{
+    border-left: 1px solid gray;
+    @apply flex flex-col p-1 border-l border-neutral-300;
+}
+
+.teacher-sidebar > .button {
+    border: 1px solid gray;
+    @apply w-[2rem] h-[2rem] rounded-md p-1 border-2 border-neutral-300 hover:bg-neutral-100 text-black cursor-pointer
+}
+
+h1{
+    @apply text-2xl font-bold
+}
