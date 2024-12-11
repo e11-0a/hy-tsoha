@@ -36,7 +36,7 @@ body {
 
 nav {
     border-bottom: 1px solid;
-    @apply bg-purple-100 h-10 text-purple-400 flex flex-row gap-1 font-sans items-center border-b border-purple-300;
+    @apply bg-purple-100 h-10 text-black flex flex-row gap-1 font-sans items-center border-b border-purple-300;
 }
 
 nav>.links {
@@ -48,7 +48,7 @@ nav>.logo {
     text-transform: uppercase;
     font-weight: 600;
     padding-left: 0.5rem;
-    @apply text-purple-400;
+    @apply text-black;
 }
 
 .dropdown-content {
@@ -85,6 +85,7 @@ nav>.logo {
 section.content {
     flex-grow: 1;
     position: relative;
+    flex-wrap: nowrap;
 }
 
 .course-table{
@@ -113,8 +114,7 @@ section.content {
 }
 
 .course-material > .sidebar {
-    border-right: 1px solid gray;
-    @apply border-r border-red-300 grow-0 p-1 flex flex-col text-left;
+    @apply border-r  grow-0 p-1 flex flex-col text-left;
 }
 
 .sidebar > a {
@@ -164,3 +164,134 @@ header>h1{
 h1{
     @apply text-2xl font-bold
 }
+
+
+input {
+    @apply border
+}
+
+.new-material-dialog{
+    @apply border p-2 m-auto 
+}
+
+.new-material-dialog > form {
+    @apply flex flex-col gap-1
+}
+
+.new-material-dialog > form > input[type="submit"]{
+    @apply bg-green-400
+}
+
+.error-dialog {
+    @apply border m-auto p-2 max-w-96 flex flex-col gap-1 bg-red-100 mt-5 border-red-400
+}
+
+.error-dialog > h4 {
+    @apply font-bold text-xl
+}
+
+.error-dialog > a {
+    @apply border bg-white w-36 text-center hover:bg-slate-100
+}
+
+
+.centered-modal{
+    @apply border m-auto p-2 max-w-96 flex flex-col gap-1 mt-5 border-neutral-400
+
+}
+
+.centered-modal > form > input[type="submit"]{
+    @apply bg-green-400
+}
+
+.centered-modal > form{
+    @apply flex flex-col gap-1
+}
+
+.notify {
+    @apply border-b bg-neutral-50 w-full p-2
+}
+
+.warning{
+    @apply bg-yellow-100
+}
+
+.error{
+    @apply bg-red-100
+}
+
+.badge-role{
+    @apply bg-slate-50 border px-1
+}
+
+.grading {
+    @apply border border-green-200 bg-green-50 flex flex-col p-1
+}
+
+.grading > span.title {
+    
+}
+
+.exercises{
+    @apply p-2
+}
+
+.autograded{
+    @apply bg-yellow-100 border border-yellow-200 px-1
+}
+
+.exercise-type {
+    @apply bg-slate-100 border border-slate-200 px-1
+}
+
+.badges{
+    @apply flex flex-row gap-1
+}
+
+.question-title{
+    @apply flex flex-row gap-1
+}
+
+.exercise{
+    @apply border-t border-t-neutral-400 mt-3 pt-1
+}
+
+.grading-table{
+    @apply border-collapse;
+
+    
+    tbody > tr > td{
+        @apply border min-w-32
+    }
+    
+    tbody > tr > th{
+        @apply border bg-neutral-50 px-2
+    }
+
+}
+
+.grading-view{
+    @apply p-4
+}
+
+.frontpage{
+    @apply p-4
+}
+
+.spacer {
+    @apply border-b w-full
+}
+
+.material-type{
+    @apply text-xs border border-orange-200 bg-orange-50 
+}
+
+.user-manage-table{
+    @apply border-collapse;
+
+    tbody > tr > td, tbody > tr > th {
+        @apply border px-1;
+    }
+
+}
+
