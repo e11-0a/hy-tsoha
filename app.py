@@ -7,6 +7,10 @@ from flask import Flask
 app = Flask(__name__)
 
 import routing
+import auth
+import courses
+import teacher
+import admin
 # autopep8: on
 
 # Security
