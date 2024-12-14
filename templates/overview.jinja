@@ -1,0 +1,98 @@
+{% extends 'base.jinja' %}
+
+<h1>{% block title %}{{course.title}}{% endblock %}</h1>
+
+{% block content %}
+<button onclick="toggleSidebar()" class="show-sidebar">Näytä</button>
+<div class="course-material">
+
+    {% if course_materials|length > 0 %}
+    <div class="sidebar">
+        <button onclick="toggleSidebar()">Piilota</button>
+        <a href="{{url_for('course_page', course=course.id)}}">
+            Etusivu
+        </a>
+        <a href="{{url_for('course_overview', course=course.id)}}">
+            Yhteenveto
+        </a>
+
+        <div class="spacer"></div>
+
+        {%for material in course_materials%}
+
+        <a href="{{url_for('course_material_page', course=course.id, material=material.id)}}">
+            {{material.name}}
+            {{material.type_string}}
+        </a>
+
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="material grading-view">
+        <h1>Yhteenveto</h1>
+        <p>Näet viimeisimpien palautusten arviot.</p>
+        <table class="grading-table">
+            <tr>
+                <th>Tehtävä</th>
+                <th>Käyttäjä</th>
+                <th>Pisteet</th>
+                <th>Sanallinen arvio</th>
+            </tr>
+            {% if done_exercises != None %}
+            {% for exercise in done_exercises %}
+            <tr>
+                <th>
+                    {{exercise[3]}}.{{exercise[4]+1}}
+                </th>
+                <td>
+                    {{exercise[2]}}
+                </td>
+                <td>
+                    {{exercise[5] if exercise[5]!=None else "-"}}
+                </td>
+                <td>
+                    {{exercise[6] if exercise[6]!=None else "-"}}
+                </td>
+            </tr>
+
+            {% endfor %}
+            {% endif%}
+        </table>
+
+    </div>
+    {% if g.user %}
+    {% if user.has_role(g.roles.teacher) and course.isMember(g.user.id) %}
+    <div class="teacher-sidebar">
+        {% if current_material != None %}
+        <a class="button" href="{{url_for('course_material_edit', course=course.id, material=current_material.id)}}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+            </svg>
+        </a>
+        {% endif %}
+        <a class="button" href="{{url_for('create_course_material', course=course.id)}}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+</svg>
+
+        </a>
+
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+
+<script>
+    let sidebar = true;
+    function toggleSidebar() {
+        sidebar ^= 1
+        document.querySelector(".sidebar").style.display = ["none", "flex"][sidebar - 0]
+        document.querySelector(".show-sidebar").style.display = ["none", "block"][(!sidebar) - 0]
+    }
+
+
+</script>
+{% endblock %}

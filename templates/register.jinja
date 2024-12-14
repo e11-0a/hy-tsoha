@@ -1,0 +1,54 @@
+{% extends 'base.jinja' %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+
+
+
+    {% if createAdmin %}
+
+    <div class="notify warning">
+        <b>Luot pääkäyttäjätiliä!</b>
+        <p>
+            Ensimmäinen käyttäjä jonka luot saa automaattisesti pääkäyttäjän oikeudet!
+        </p>
+    </div>
+
+    {% endif %}
+
+
+    {% if error %}
+    <div class="notify error">
+        <b>Tapahtui virhe</b>
+        <p>
+            {{error}}
+        </p>
+    </div>
+
+    {% endif %}
+
+    <div class="centered-modal">
+        <form action="/register" method="POST">
+            <p>Käyttäjätunnus:<br>
+                <input type="text" name="username">
+            </p>
+            <p>Salasana:<br>
+                <input type="password" name="password">
+            </p>
+            <p>Toista salasana:<br>
+                <input type="password" name="password-verify">
+            </p>
+
+            <select name="type">
+                <option value="student">Opiskelija</option>
+                <option value="teacher">Opettaja</option>
+            </select>
+            <input type="submit" value="Rekisteröidy">
+        </form>
+    </div>
+</body>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.jinja' %}
+
+<h1>{% block title %}Luodaan uutta kurssia{% endblock %}</h1>
+
+{% block content %}
+<div class="course-material ">
+    <div class="new-material-dialog">
+        <b>Luodaan uutta kurssia</b>
+        <form action="" method="POST">
+            <p>Kurssin nimi:</p>
+            <input type="text" name="name">
+            <p>Kurssin koodi:</p>
+            <input type="text" name="code">
+            <p>Kurssin kuvaus:</p>
+            <textarea type="text" name="desc"></textarea>
+            <p>Kurssin tyyppi:</p>
+            <select name="type">
+                <option value="open">Avoin</option>
+                <option value="join">Vaatii liittymisen</option>
+                <option value="code">Vaatii koodin</option>
+            </select>
+            <p>Avainkoodi (tarvitaan vain "vaatii koodin" kurssityypillä)</p>
+            <input type="text" name="key">
+            <input type="submit" value="Luo!">
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

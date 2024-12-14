@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<head>
+{% extends 'base.jinja' %}
 
-</head>
+{% block header %}
 
-<body>
-<!--
-TODO
--->
+{% endblock %}
 
-{% if session.id %}
-{{session.id}}
-{{session.username}}
-{% endif %}
+{% block content %}
 
 
+<div class="centered-modal">
     <form action="/login" method="POST">
-<p>Tunnus:<br>
-<input type="text" name="username"></p>
-<p>Salasana:<br>
-<input type="password" name="password"></p>
-<input type="submit" value="Kirjaudu">
-</form>
-</body>
+        <p>Tunnus:<br>
+            <input type="text" name="username">
+        </p>
+        <p>Salasana:<br>
+            <input type="password" name="password">
+        </p>
+        <input type="submit" value="Kirjaudu">
+    </form>
+</div>
+
+{% endblock %}

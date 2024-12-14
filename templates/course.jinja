@@ -9,11 +9,24 @@
     {% if course_materials|length > 0 %}
     <div class="sidebar">
         <button onclick="toggleSidebar()">Piilota</button>
+        <a href="{{url_for('course_page', course=course.id)}}">
+            Etusivu
+        </a>
+
+        <a href="{{url_for('course_overview', course=course.id)}}">
+            Yhteenveto
+        </a>
+
+        <div class="spacer"></div>
+
         {%for material in course_materials%}
 
         <a href="{{url_for('course_material_page', course=course.id, material=material.id)}}">
-            {{material.name}}
+            {{material.name}} 
+            <br>
+            <span class="material-type">
             {{material.type_string}}
+            </span>
         </a>
 
         {% endfor %}
@@ -22,42 +35,141 @@
 
     <div class="material">
         {% if current_material != None %}
+        {% if current_material.type == 0%}
         <iframe srcdoc="{{current_material.content}}" sandbox="">
         </iframe>
+        {% elif current_material.type == 1%}
+
+        <form action="" method="POST" class="exercises">
+            {% for exercise in current_material.get_exercises()%}
+            {% set exercise_id = loop.index %}
+
+            <div class="exercise" type="{{exercise.type}}">
+
+                <div class="question-title">
+                    <span>
+                        <b>{{exercise_id}}.</b>
+                        {{exercise.question}}
+                    </span>
+                    <div class="badges">
+                        <span class="exercise-type" type="{{exercise.type}}">
+                            {{exercise.readableType}}
+                        </span>
+                        {%if exercise.automatic %}
+                        <span class="autograded">
+                            Konearvosteltu
+                        </span>
+                        {%endif%}
+                    </div>
+                </div>
+
+                <div>
+                </div>
+                <div>
+                    {%if exercise.type == "freetext"%}
+                    <textarea placeholder="Kirjoita vastauksesi tähän kentään" name="{{exercise_id}}"></textarea>
+                    {%elif exercise.type == "multiple_choice"%}
+
+                    {% for answer in exercise.answers%}
+
+                    <input type="radio" id="q{{exercise_id}}_{{answer[" id"]}}" name="{{exercise_id}}"
+                        value="{{answer['id']}}">
+                    <label for="q{{exercise_id}}_{{answer[" id"]}}">{{answer["text"]}}</label><br>
+
+                    {%endfor%}
+
+                    {%elif exercise.type == "short_text_answer"%}
+                    lyhytteksti
+                    <input type="text" placeholder="Vastaus" name="{{exercise_id}}">
+                    {%endif%}
+                </div>
+                {% if past_answers %}
+                <div class="grading">
+                    <span>Arvio:
+                        {% if exercise_id-1 in past_answers %}
+                        {% if past_answers[exercise_id-1][0][2] != None %}
+                        <b>{{past_answers[exercise_id-1][0][2]}} p</b>
+                        {% endif %}
+                    </span>
+
+                    {% if past_answers[exercise_id-1][0][3] != None %}
+                    <span>{{past_answers[exercise_id-1][0][3]}}</span>
+                    {% endif %}
+                    {% endif %}
+                    {% if past_answers[exercise_id-1]|length > 1 %}
+                    <details>
+                        <summary>Historialliset arviot</summary>
+                        <table>
+                            <tr>
+                                <th>Pisteet</th>
+                                <th>Sanallinen</th>
+                            </tr>
+                            {%for old in past_answers[exercise_id-1]%}
+                            <tr>
+                                <td>{{old[2] if old[2]!=None else "-"}}</td>
+                                <td>{{old[3] if old[3]!=None else "-"}}</td>
+                            </tr>
+                            {%endfor%}
+                        </table>
+                    </details>
+                    {%endif%}
+                </div>
+                {% endif %}
+            </div>
+
+            {%endfor%}
+            {% if g.user %}
+            {% if g.user.has_role(role.student) %}
+            <input type="submit" value="Vastaa">
+            {% endif %}
+            {% endif %}
+        </form>
+        {% endif %}
         {% else %}
-        <h1>
-            {{ course.codename }}
-            {{ course.title }}
-        </h1>
+        <div class="frontpage">
+            <h1>
+                {{ course.codename }}
+                {{ course.title }}
+            </h1>
 
-        <p>
-            {{ course.description }}
-        </p>
-        {% if g.user %}
-        {% if (not course.isMember(g.user.id)) and user.has_role(role.student) %}
-        <p>Et ole kurssin jäsen, tehdäksesi tehtäviä sinun täytyy liittyä.</p>
-        <form action="{{ url_for('join_course_student', course=course.id)}}" method="post">
-            <input type="submit" value="Liity kurssille">
-        </form>
-        {% elif (not course.isMember(g.user.id)) and user.has_role(role.teacher) %}
-        <p>Et ole kurssin jäsen, voidaksesi muokata kurssia sinun täytyy liittyä.</p>
-        <form action="{{ url_for('join_course_teacher', course=course.id)}}" method="post">
-            <input type="submit" value="Liity kurssille">
-        </form>
-        {% endif %}
-        {% endif %}
-        {% endif %}
+            <p>
+                {{ course.description }}
+            </p>
+            {% if g.user %}
+            {% if (not course.isMember(g.user.id)) and user.has_role(role.student) %}
+            <p>Et ole kurssin jäsen.</p>
+            <form action="{{ url_for('join_course_student', course=course.id)}}" method="post">
+                <input type="submit" value="Liity kurssille">
+            </form>
+            {% elif (not course.isMember(g.user.id)) and user.has_role(role.teacher) %}
+            <p>Et ole kurssin jäsen, voidaksesi muokata kurssia sinun täytyy liittyä.</p>
+            <form action="{{ url_for('join_course_teacher', course=course.id)}}" method="post">
+                <input type="submit" value="Liity kurssille">
+            </form>
+            {% endif %}
+            {% endif %}
 
+        </div>
+            {% endif %}
     </div>
     {% if g.user %}
     {% if user.has_role(g.roles.teacher) and course.isMember(g.user.id) %}
     <div class="teacher-sidebar">
+        {% if current_material != None %}
         <a class="button" href="{{url_for('course_material_edit', course=course.id, material=current_material.id)}}">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
             </svg>
+        </a>
+        {% endif %}
+        <a class="button" href="{{url_for('create_course_material', course=course.id)}}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+
         </a>
 
     </div>

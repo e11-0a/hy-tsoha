@@ -1,0 +1,51 @@
+{% extends 'base.jinja' %}
+
+{% block header %}
+<h1>{% block title %}Omat tietosi{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="frame">
+
+    <table>
+        <tr>
+            <th>Nimi</th>
+            <td>{{user.name}}</td>
+        </tr>
+        <tr>
+            <th>Käyttäjänimi</th>
+            <td>{{user.username}}</td>
+        </tr>
+        <tr>
+            <th>Käyttäjä ID</th>
+            <td>{{user.id}}</td>
+        </tr>
+        <tr>
+            <th>Kommentti</th>
+            <td>{{user.comment}}</td>
+        </tr>
+        <tr>
+            <th>Aktiivinen</th>
+            <td>{{user.active}}</td>
+        </tr>
+
+
+        <tr>
+            <th>Roolit</th>
+            <td>
+
+
+                {% for role in user.get_named_roles()%}
+                <span class="badge-role">
+                    {{role}}
+                </span>
+                {%endfor%}
+            </td>
+        </tr>
+    </table>
+
+
+
+</div>
+{% endblock %}

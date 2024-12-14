@@ -4,9 +4,15 @@
 <nav>
     <a class="logo" href="{{ url_for('index') }}">Opetussovellus</a>
     <div class="links">
+        /
         {% if g.user %}
-        <a href="{{ url_for('my_index') }}">Omat</a>
-        <a href="{{ url_for('course_index') }}">Kurssit</a>
+        <a href="{{ url_for('my_index') }}">Omat kurssit</a>
+        /
+        <a href="{{ url_for('course_index') }}">Kaikki kurssit</a>
+        {% if g.user.has_role(g.roles.superuser) %}
+        /
+        <a href="{{ url_for('manage_users') }}">Käyttäjienhallinta</a>
+        {% endif %}
         {% endif %}
     </div>
 
@@ -14,18 +20,22 @@
     {% if g.user %}
     {% if g.user.has_role(g.roles.teacher) %}
     <div>
-        <a href="#">Teacherlinks</a>
+        <span>Opettaja</span>
+    </div>
+    {% elif g.user.has_role(g.roles.student) %}
+    <div>
+        <span>Opiskelija</span>
     </div>
     {% endif %}
     <div class="dropdown">
         <span>{{ g.user['username'] }}</span>
         <div class="dropdown-content">
             <a href="{{ url_for('logout') }}">Kirjaudu ulos</a>
-            <a href="{{ url_for('logout') }}">Omat tiedot</a>
+            <a href="{{ url_for('my_account') }}">Omat tiedot</a>
         </div>
     </div>
     {% else %}
-    <a href="{{ url_for('login') }}">Log In</a>
+    <a href="{{ url_for('index') }}">Log In</a>
     {% endif %}
 </nav>
 <section class="content">

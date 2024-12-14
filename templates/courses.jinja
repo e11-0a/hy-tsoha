@@ -10,6 +10,14 @@
 
     <p>Palvelimella saatavilla olevat kurssit</p>
 
+    {% if user.has_role(role.teacher)%}
+    
+        ope
+
+        <a href="{{url_for('new_course')}}">Luo uusi kurssi</a>
+
+    {%endif%}
+
     <table class="course-table">
         <tr>
             <th>Koodi</th>

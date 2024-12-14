@@ -7,23 +7,9 @@
 <div class="course-material">
   <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet" />
 
-  {% if course_materials|length > 0 %}
-  <div class="sidebar">
-    <button onclick="toggleSidebar()">Piilota</button>
-    {%for material in course_materials%}
-
-    <a href="{{url_for('course_material_page', course=course.id, material=material.id)}}">
-      {{material.name}}
-      {{material.type_string}}
-    </a>
-
-    {% endfor %}
-  </div>
-  {% endif %}
-
   <div class="material">
     {% if current_material != None %}
-
+    {% if current_material.type == 0 %}
 
 
     <!-- Create the editor container -->
@@ -42,7 +28,31 @@
       const delta = quill.clipboard.convertHTML(content)
       quill.setContents(delta, 'silent')
 
+      function saveMaterial() {
+        // TODO
+        console.log("Saving")
+        html = document.querySelector("#editor > .ql-editor").innerHTML
+        document.querySelector("#source_form").value = html
+        document.querySelector("#editor_form").submit()
+      }
+
     </script>
+    {%elif current_material.type == 1%}
+
+    <textarea id="exercise-editor">{{current_material.content}}</textarea>
+
+    <script>
+      function saveMaterial() {
+        // TODO
+        console.log("Saving")
+        exercises = document.querySelector("#exercise-editor").value
+        document.querySelector("#source_form").value = exercises
+        document.querySelector("#editor_form").submit()
+      }
+
+    </script>
+
+    {%endif%}
 
     {% else %}
     <h1>
@@ -61,9 +71,10 @@
   <div class="teacher-sidebar">
 
     <a class="button" onclick="saveMaterial()">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-</svg>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+      </svg>
 
     </a>
     <form id="editor_form" action="" method="POST">
@@ -81,13 +92,7 @@
     document.querySelector(".show-sidebar").style.display = ["none", "block"][(!sidebar) - 0]
   }
 
-  function saveMaterial() {
-    // TODO
-    console.log("Saving")
-    html = document.querySelector("#editor > .ql-editor").innerHTML
-    document.querySelector("#source_form").value = html
-    document.querySelector("#editor_form").submit()
-  }
+
 
 </script>
 {% endblock %}

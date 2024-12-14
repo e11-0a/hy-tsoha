@@ -4,11 +4,17 @@
 
 {% block content %}
 <div class="course-material ">
-
-    <form action="" method="POST">
-    <input type="text" name="name">
-    <input type="submit">
-    </form>
+    <div class="new-material-dialog">
+    <p>Uuden materiaalin nimi:</p>
+        <form action="" method="POST">
+            <input type="text" name="name">
+            <select name="type">
+            <option value="material">Aineisto</option>
+            <option value="exercise">Tehtävä</option>
+            </select>
+            <input type="submit" value="Luo!">
+        </form>
+    </div>
 
 </div>
 

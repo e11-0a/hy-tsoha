@@ -1,0 +1,68 @@
+{% extends 'base.jinja' %}
+
+{% block header %}
+<h1>{% block title %}Käyttäjät{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="frame">
+
+    <table class="user-manage-table">
+        <tr>
+            <th>
+                ID
+            </th>
+                        <th>
+                Nimi
+            </th>
+                        <th>
+                Aktiivinen
+            </th>
+                        <th>
+                Kommentti
+            </th>
+                        <th>
+                Roolit
+            </th>
+        </tr>
+        {% for user in users%}
+        <tr>
+
+            <td>
+                {{user[0]}}
+            </td>
+            <td>
+                {{user[2]}}
+                ({{user[1]}})
+            </td>
+            <td>
+                {{"Kyllä" if user[3] else "Ei"}}
+            </td>
+            <td>
+                {{user[4]}}
+            </td>
+            <td>
+                {% for user_role in user[5]%}
+                <span class="badge-role">
+                    {{user_role}}
+                </span>
+                {%endfor%}
+            </td>
+
+            <td>
+                <form action="{{url_for('toggle_user', user=user[0])}}" method="post">
+                    <input type="submit" value='{{"Deaktivoi" if user[3] else "Aktivoi"}}'>
+
+                </form>
+            </td>
+
+        </tr>
+        {%endfor%}
+
+    </table>
+
+
+
+</div>
+{% endblock %}
