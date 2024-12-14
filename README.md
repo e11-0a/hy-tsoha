@@ -1,6 +1,4 @@
 # Opetussovellus
-> [!WARNING]  
-> Oli ongelmia paikallisen repon kanssa, tiedostoja voi puuttua tai olla väärä versio
 
 
 (perustuu materiaalin esimerkkiin)
@@ -60,7 +58,9 @@ psql -U <your postgres user> -d <your database> -a -f sql/create-db.sql
 ```
 
 7. (optional) import test data from `sql/create-test.sql`.
-```bash
+> [!NOTE]
+> The test data is severely outdated and might not work expectedly on the lastest version, it is recommended to not use it and just start with an empty db.
+```bash 
 psql -U <your postgres user> -d <your database> -a -f sql/create-test.sql
 ```
 
@@ -76,6 +76,10 @@ psql -U <your postgres user> -d <your database> -a -f sql/create-db.sql
 flask --app app.py run
 ```
 
+9. Create superuser
+If test data was not used, the server allows the first user to be registered as superuser.
+Registration available by default at: [http://127.0.0.1:5000/register](http://127.0.0.1:5000/register)
+
 # Testing
 If test data used, you should be able to log in with:
 ```
@@ -84,5 +88,3 @@ user_1:abcde
 Student:
 user_2:abcde
 ```
-
-Creating users via the web interface is not supported yet
