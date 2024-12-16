@@ -1,5 +1,6 @@
 # Opetussovellus
-
+> [!NOTE]
+> Paikallinen repo hajosi (jälleen) joten commitit saattaa olla väärässä järjestyksessä/puuttua/olla duplikaattina/muuten sekasin, korjasin suurimman osan mutta jotain saattoi jäädä.
 
 (perustuu materiaalin esimerkkiin)
 
